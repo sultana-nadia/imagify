@@ -75,41 +75,56 @@ const Result = () => {
 
   return (
     <motion.form 
-    initial={{opacity:0.2, y:100}}
-    transition={{duration:1}}
+    initial={{opacity:0.2, y:40}}
+    transition={{duration:0.6}}
     whileInView={{opacity:1, y:0}}
     viewport={{once:true}}
-    onSubmit={onSubmitHandler} className="flex flex-col min-h-[90vh] justify-center items-center">
-    <div>
-        <div className="relative">
-          <img src={image} className="max-w-sm rounded" alt="Generated result" />
-          <span className={`absolute bottom-0 left-0 h-1 bg-blue-500 ${loading ? 'w-full transition-all duration-[10s]' : 'w-0' }`}/>
+    onSubmit={onSubmitHandler} className="min-h-[calc(100vh-180px)] py-8 sm:py-12">
+      <div className="mx-auto grid w-full max-w-6xl items-center gap-8 lg:grid-cols-[minmax(0,1fr)_380px]">
+        <div className="flex justify-center lg:justify-end">
+          <div className="relative w-full max-w-[520px] overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+            <div className="aspect-square w-full bg-slate-100">
+              <img src={image} className="h-full w-full object-cover" alt="Generated result" />
+            </div>
+            <span className={`absolute bottom-0 left-0 h-1 bg-blue-500 ${loading ? 'w-full transition-all duration-[10s]' : 'w-0' }`}/>
+          </div>
         </div>
-        <p className={!loading ? "hidden" : ''}>Loading...</p>
-    </div>
 
-  {!isImageLoaded &&
+        <div className="w-full">
+          <div className="mb-5">
+            <p className="text-sm font-medium uppercase tracking-wide text-blue-600">Imagify Studio</p>
+            <h1 className="mt-2 text-2xl font-semibold text-slate-950 sm:text-3xl">Generate and download images</h1>
+            <p className="mt-3 text-sm leading-6 text-slate-600">Enter a prompt, spend one credit, and save the result when it is ready.</p>
+          </div>
 
-    <div className="flex w-full max-w-xl bg-neutral-500 text-white text-sm p-0.5 mt-10 rounded-full">
+          <div className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+            <label className="text-sm font-medium text-slate-700" htmlFor="prompt">Prompt</label>
+            <textarea
+              id="prompt"
+              onChange={e => setInput(e.target.value)}
+              value={input}
+              rows={4}
+              placeholder="Describe what you want to generate"
+              className="mt-2 w-full resize-none rounded-md border border-slate-200 bg-slate-50 px-3 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-400 focus:bg-white"
+              disabled={loading}
+            />
 
-      <input 
-      onChange={e => setInput(e.target.value)} value={input}
-      type="text" placeholder="Describe What you want to generate" className="flex-1 bg-transparent outline-none ml-8 max-sm:w-20 placeholder-color" disabled={loading} />
+            <p className={loading ? "mt-3 text-sm text-blue-600" : 'hidden'}>Generating your image...</p>
 
-      <button className="bg-zinc-900 px-10 sm:px-16 py-3 rounded-full disabled:opacity-60" type="submit" disabled={loading}>{loading ? 'Generating' : 'Generate'}</button>
-    </div>
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+              <button className="min-h-11 flex-1 rounded-md bg-slate-950 px-5 py-3 text-sm font-medium text-white transition hover:bg-slate-800 disabled:opacity-60" type="submit" disabled={loading}>{loading ? 'Generating' : isImageLoaded ? 'Generate New Image' : 'Generate Image'}</button>
 
-  }
+              {isImageLoaded &&
+                <a className="min-h-11 flex-1 rounded-md border border-slate-300 px-5 py-3 text-center text-sm font-medium text-slate-900 transition hover:bg-slate-50" href={image} download="imagify-result.png">Download</a>
+              }
+            </div>
 
-  {isImageLoaded &&
-
-    <div className="flex gap-2 flex-wrap justify-center text-white text-sm p-0.5 mt-10 rounded-full">
-      <p onClick={()=>{setIsImageLoaded(false); setInput('')}}
-       className="bg-transparent border border-zinc-900 text-black px-8 py-3 rounded-full cursor-pointer">Generate Another</p>
-      <a className="bg-zinc-900 px-10 py-3 rounded-full cursor-pointer" href={image} download="imagify-result.png" >Download</a>
-    </div>
-
-  }
+            {isImageLoaded &&
+              <button type="button" onClick={()=>{setIsImageLoaded(false); setInput('')}} className="mt-3 w-full text-sm font-medium text-blue-600 hover:text-blue-700">Clear result and write a new prompt</button>
+            }
+          </div>
+        </div>
+      </div>
     </motion.form>
   )
 }

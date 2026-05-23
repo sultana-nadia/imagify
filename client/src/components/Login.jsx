@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useState } from "react"
 import { assets } from "../assets/assets"
 import { AppContext } from "../context/AppContext.js"
 import {motion} from "framer-motion"
@@ -88,26 +88,17 @@ const Login = () => {
     }
 };
 
-  useEffect(()=>{
-    document.body.style.overflow = 'hidden';
-
-    return()=>{
-         document.body.style.overflow = 'unset';
-    }
-  },[])
-
   return (
 
-    <div className="fixed inset-0 z-50 bg-slate-950/40 backdrop-blur-sm flex justify-center items-center px-4">
+    <div className="fixed inset-0 z-50 pointer-events-none">
 
         <motion.form onSubmit={onSubmitHandler}
-        initial={{opacity:0.2, y:50}}
+        initial={{opacity:0, y:-12, scale:0.98}}
         transition={{duration:0.3}}
-        whileInView={{opacity:1, y:0}}
-        viewport={{once:true}}
-        className="relative w-full max-w-md bg-white p-7 sm:p-8 rounded-2xl text-slate-600 shadow-2xl border border-white/70">
+        animate={{opacity:1, y:0, scale:1}}
+        className="pointer-events-auto absolute right-3 top-20 w-[calc(100vw-24px)] max-w-sm bg-white p-5 sm:p-6 rounded-2xl text-slate-600 shadow-2xl border border-slate-200 sm:right-10 lg:right-28">
             <div className="mb-6 text-center">
-                <h1 className="text-2xl text-neutral-900 font-semibold">{isLogin ? 'Welcome back' : 'Create your account'}</h1>
+                <h1 className="text-xl text-neutral-900 font-semibold">{isLogin ? 'Welcome back' : 'Create your account'}</h1>
                 <p className="text-sm mt-2 text-slate-500">{isLogin ? 'Log in to generate images and manage credits.' : 'Sign up to get your first 5 credits.'}</p>
             </div>
 
@@ -140,7 +131,7 @@ const Login = () => {
 
             <p className='mt-5 text-center text-sm'>{isLogin ? "Don't have an account?" : 'Already have an account?'} <button type="button" className="text-blue-600 font-medium hover:underline" onClick={()=> switchMode(isLogin ? 'Sign Up' : 'Login')}>{isLogin ? 'Sign up' : 'Login'}</button></p>
 
-            <button type="button" onClick={()=>setShowLogin(false)} className="absolute top-5 right-5 rounded-full p-2 hover:bg-slate-100" aria-label="Close login modal"><img src={assets.cross_icon} className="w-3"  alt="" /></button>
+            <button type="button" onClick={()=>setShowLogin(false)} className="absolute top-4 right-4 rounded-full p-2 hover:bg-slate-100" aria-label="Close login modal"><img src={assets.cross_icon} className="w-3"  alt="" /></button>
 
         </motion.form>
 
