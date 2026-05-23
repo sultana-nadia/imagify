@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import {assets} from '../assets/assets'
 import { useContext } from 'react'
-import { AppContext } from '../context/AppContext'
+import { AppContext } from '../context/AppContext.js'
 
 
 const Navbar = () => {
@@ -25,7 +25,7 @@ const Navbar = () => {
             <div className='flex items-center gap-2 sm:gap-3'>
                 <button onClick={()=>navigate('/buy')} className='flex items-center gap-2 bg-blue-100 px-4 sm:px-6 py-1.5 sm:py-3 rounded-full hover:scale-105 transition-all duration-700'>
                     <img className='w-5' src={assets.credit_star} alt="" />
-                    <p className='text-xs sm:text-sm font-medium text-gray-600'>Credits left : {credit}</p>
+                    <p className='text-xs sm:text-sm font-medium text-gray-600'>Credits left : {credit ?? 0}</p>
                 </button>
 
                 <p className='text-gray-600 max-sm:hidden pl-4'>Hi, {user.name}</p>

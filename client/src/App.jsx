@@ -11,7 +11,7 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Login from './components/Login'
 import { useContext } from 'react'
-import { AppContext } from './context/AppContext'
+import { AppContext } from './context/AppContext.js'
 
 const App = () => {
 

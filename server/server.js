@@ -1,14 +1,8 @@
 import express from 'express'
 import cors from 'cors'
 import 'dotenv/config'
-
-
-// ufffffff
 import dns from 'dns';
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
-// ///
-
-
 
 import connectDB from './config/mongodb.js'
 import userRouter from './routes/userRoutes.js'
@@ -27,6 +21,6 @@ app.use('/api/image', imageRouter);
 
 app.get('/', (req, res)=> res.send("API Working fine"))
 
-app.listen(PORT, ()=> console.log('server ruuning on port'+ PORT))
+app.listen(PORT, ()=> console.log('Server running on port '+ PORT))
 
 

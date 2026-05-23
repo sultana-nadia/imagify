@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react"
 import { assets } from "../assets/assets"
-import { AppContext } from "../context/AppContext"
+import { AppContext } from "../context/AppContext.js"
 import {motion} from "framer-motion"
 import axios from 'axios'
 import { toast } from "react-toastify"
@@ -9,7 +9,7 @@ import { toast } from "react-toastify"
 const Login = () => {
 
   const [state, setState] = useState('Login')
-  const {setShowLogin, backendUrl, setToken, setUser} = useContext(AppContext)
+  const {setShowLogin, backendUrl, setToken, setUser, setCredit} = useContext(AppContext)
 
   const[name, setName] = useState('')
   const[email, setEmail] = useState('')
@@ -30,6 +30,7 @@ const Login = () => {
             if (data.success) {
                 setToken(data.token);
                 setUser(data.user);
+                setCredit(data.credits);
 
                 localStorage.setItem('token', data.token);
 
@@ -48,6 +49,7 @@ const Login = () => {
             if (data.success) {
                 setToken(data.token);
                 setUser(data.user);
+                setCredit(data.credits);
 
                 localStorage.setItem('token', data.token);
 

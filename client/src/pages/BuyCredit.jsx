@@ -1,12 +1,43 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { assets, plans } from "../assets/assets"
-import { AppContext } from "../context/AppContext"
+import { AppContext } from "../context/AppContext.js"
 import {motion} from "framer-motion"
+import axios from "axios"
+import { toast } from "react-toastify"
 
 
 const BuyCredit = () => {
 
-  const {user} = useContext(AppContext)
+  const {user, token, backendUrl, setCredit, setShowLogin} = useContext(AppContext)
+  const [loadingPlan, setLoadingPlan] = useState('')
+
+  const onPurchaseHandler = async(planId)=>{
+    if(!user || !token){
+      setShowLogin(true)
+      return
+    }
+
+    setLoadingPlan(planId)
+
+    try{
+      const {data} = await axios.post(
+        backendUrl + '/api/user/add-credits',
+        {planId},
+        {headers: {Authorization: `Bearer ${token}`}}
+      )
+
+      if(data.success){
+        setCredit(data.credits)
+        toast.success(data.message)
+      }else{
+        toast.error(data.message)
+      }
+    }catch(error){
+      toast.error(error.response?.data?.message || error.message)
+    }finally{
+      setLoadingPlan('')
+    }
+  }
 
   return (
     <motion.div
@@ -26,7 +57,7 @@ const BuyCredit = () => {
               <p className="mt-3 mb-1 font-semibold">{item.id}</p>
               <p className="text-sm">{item.desc}</p>
               <p className="mt-6"> <span className="text-3xl font-medium">${item.price}</span>/{item.credits} credits </p>
-              <button className="w-full bg-gray-800 text-white mt-8 text-sm rounded-md py-2.5 min-w-52">{user ? 'Purchase' : 'Get Started'}</button>
+              <button onClick={()=>onPurchaseHandler(item.id)} disabled={loadingPlan === item.id} className="w-full bg-gray-800 text-white mt-8 text-sm rounded-md py-2.5 min-w-52 disabled:opacity-60">{loadingPlan === item.id ? 'Processing' : user ? 'Purchase' : 'Get Started'}</button>
             </div>
 
           ))}

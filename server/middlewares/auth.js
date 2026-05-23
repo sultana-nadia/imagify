@@ -1,10 +1,12 @@
 import jwt from 'jsonwebtoken'
 
 const userAuth = async(req, res, next) =>{
-    const {token} = req.headers;
+    const authHeader = req.headers.authorization;
+    // Support both the previous custom token header and the standard Bearer format.
+    const token = req.headers.token || (authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null);
 
     if(!token){
-        return res.json({success: false, message: 'Not authorized. Login again'})
+        return res.status(401).json({success: false, message: 'Not authorized. Login again'})
     }
 
     try{
@@ -13,18 +15,15 @@ const userAuth = async(req, res, next) =>{
 
         if(tokenDecode.id)
         {
-
-            // changed
-            // req.body.userId = tokenDecode.id;
             req.userId = tokenDecode.id;
         }else{
-            return res.json({success: false, message: 'Not authorized. Login again'}) 
+            return res.status(401).json({success: false, message: 'Not authorized. Login again'}) 
         }
 
         next();
 
     }catch(error){
-         res.json({success: false, message: error.message}) 
+         res.status(401).json({success: false, message: 'Not authorized. Login again'}) 
     }
 };
 
