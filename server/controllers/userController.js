@@ -12,10 +12,18 @@ const creditPlans = [
 
 const registerUser = async (req, res)=>{
     try{
-        const{name, email, password}= req.body;
+        const name = req.body.name?.trim();
+        const email = req.body.email?.trim().toLowerCase();
+        const {password}= req.body;
+
         if(!name || !email || !password)
         {
-            return res.json({success:false, message: 'Missing Details'})
+            return res.status(400).json({success:false, message: 'Please fill in all required fields'})
+        }
+
+        const existingUser = await userModel.findOne({email})
+        if(existingUser){
+            return res.status(409).json({success:false, message: 'An account with this email already exists. Please log in instead.'})
         }
 
         const salt = await bcrypt.genSalt(10)
@@ -37,17 +45,27 @@ const registerUser = async (req, res)=>{
 
     } catch(error){
         console.log(error)
-        res.json({success: false, message: error.message})
+        if(error.code === 11000){
+            return res.status(409).json({success: false, message: 'An account with this email already exists. Please log in instead.'})
+        }
+
+        res.status(500).json({success: false, message: 'Unable to create account. Please try again.'})
     }
 }
 
 const loginUser = async (req, res)=>{
     try{
-        const {email, password} = req.body;
+        const email = req.body.email?.trim().toLowerCase();
+        const {password} = req.body;
+
+        if(!email || !password){
+            return res.status(400).json({success:false, message: 'Please enter your email and password'})
+        }
+
         const user = await userModel.findOne({email})
 
         if(!user){
-            return res.json({success:false, message: 'User does not exist'})
+            return res.status(401).json({success:false, message: 'Invalid email or password'})
         }
 
         const isMatch = await bcrypt.compare(password, user.password)
@@ -58,14 +76,14 @@ const loginUser = async (req, res)=>{
 
              res.json({success: true, token, user: {name: user.name}, credits: user.creditBalance})
         }else{
-            return res.json({success:false, message: 'Invalid credentials'})
+            return res.status(401).json({success:false, message: 'Invalid email or password'})
         }
 
     } 
     catch(error)
     {
        console.log(error)
-       res.json({success: false, message: error.message})
+       res.status(500).json({success: false, message: 'Unable to log in. Please try again.'})
     }
 }
 
