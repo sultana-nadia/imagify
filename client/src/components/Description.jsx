@@ -1,35 +1,78 @@
-import { assets } from "../assets/assets"
-import {motion} from "framer-motion"
-
+import { assets } from '../assets/assets'
+import { motion } from 'framer-motion'
 
 const Description = () => {
   return (
     <motion.div
-     initial={{opacity:0.2, y:100}}
-    transition={{duration:1}}
-    whileInView={{opacity:1, y:0}}
-    viewport={{once:true}}
-    className="flex flex-col items-center justify-center my-24 p-6 md:px-28">
-        <h1 className="text-3xl sm:text-4xl font-semibold mb-2">Create AI images</h1>
-        <p className="text-gray-500 mb-8">Turn your imagination into visuals</p>
+      initial={{ opacity: 0, y: 60 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+      viewport={{ once: true }}
+      className='my-24 px-0'
+    >
+      {/* Section label */}
+      <div className='mb-4 flex justify-center'>
+        <span className='rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-violet-400'>
+          About the Platform
+        </span>
+      </div>
 
-        <div className="flex flex-col gap-5 md:gap-14 md:flex-row items-center">
-            <img src={assets.sample_img_1} alt="" className="w-80 xl:w-96 rounded-lg"/>
-            <div>
+      <h2 className='mb-3 text-center text-3xl font-bold text-white sm:text-4xl'>
+        Create AI images with{' '}
+        <span className='gradient-text'>zero effort</span>
+      </h2>
+      <p className='mb-12 text-center text-slate-500'>Turn your imagination into visuals — instantly.</p>
 
-                <h2 className="text-3xl font-medium max-w-lg mb-4">Introducing the AI-Powered Text to Image Generator</h2>
-                <p className="text-gray-600 mb-4">
-                    Easily bring your ideas to life with our free AI image generator. whether you need stunning visuals or unique imagenry, our tool transforms your text into eye-catching inmages with just a few clicks. image it, escribe it, and watch it come to life instantly.
-                </p>
-                <p className="text-gray-600">
-                    Simply type in a text prompt, and ouur cutting-edge AI will generate high quality imnages in seconds. Fromn product visuls to chatracter designs and portraits even concepts that dont vet exist can be visualised rffortlessly.
+      <div className='flex flex-col items-center gap-10 md:flex-row md:gap-16'>
 
-                </p>
-            </div>
+        {/* Image */}
+        <motion.div
+          whileHover={{ scale: 1.02 }}
+          transition={{ duration: 0.3 }}
+          className='relative shrink-0'
+        >
+          <div className='absolute -inset-1 rounded-2xl bg-gradient-to-br from-violet-600/40 via-indigo-500/30 to-cyan-500/20 blur-sm' />
+          <img
+            src={assets.sample_img_1}
+            alt='AI generated sample'
+            className='relative w-72 rounded-2xl object-cover ring-1 ring-white/10 xl:w-96'
+          />
+        </motion.div>
+
+        {/* Text */}
+        <div className='max-w-xl'>
+          <h3 className='mb-5 text-2xl font-semibold leading-snug text-white sm:text-3xl'>
+            Introducing the AI-Powered{' '}
+            <span className='gradient-text'>Text to Image Generator</span>
+          </h3>
+          <p className='mb-4 leading-relaxed text-slate-400'>
+            Easily bring your ideas to life with our AI image generator. Whether
+            you need stunning visuals or unique imagery, our tool transforms your
+            text into eye-catching images in just a few clicks. Imagine it,
+            describe it, and watch it come to life instantly.
+          </p>
+          <p className='leading-relaxed text-slate-400'>
+            Simply type a text prompt and our cutting-edge AI generates
+            high-quality images in seconds — from product visuals to character
+            designs, portraits, and even concepts that don&apos;t exist yet can be
+            visualised effortlessly.
+          </p>
+
+          <div className='mt-8 grid grid-cols-2 gap-4'>
+            {[
+              { icon: '⚡', label: 'Instant generation' },
+              { icon: '🎨', label: 'High-quality output' },
+              { icon: '💾', label: 'One-click download' },
+              { icon: '🔒', label: 'Secure & private' },
+            ].map((f) => (
+              <div key={f.label} className='flex items-center gap-2 text-sm text-slate-400'>
+                <span className='text-base'>{f.icon}</span>
+                {f.label}
+              </div>
+            ))}
+          </div>
         </div>
-
-
-
+      </div>
     </motion.div>
   )
 }
