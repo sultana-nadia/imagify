@@ -32,7 +32,7 @@ const Description = () => {
         Turn your imagination into visuals — instantly.
       </p>
 
-      <div className='flex flex-col items-center gap-12 md:flex-row md:gap-16'>
+      <div className='flex flex-col items-center justify-center gap-12 md:flex-row md:gap-16'>
 
         {/* Image with glow treatment */}
         <motion.div
