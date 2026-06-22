@@ -21,3 +21,21 @@
   0%, 100% { opacity: 0.3; transform: scale(1); }
   50%       { opacity: 0.6; transform: scale(1.08); }
 }
+
+@keyframes blob-morph {
+  0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  25%       { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+  50%       { border-radius: 50% 60% 30% 60% / 30% 60% 70% 50%; }
+  75%       { border-radius: 60% 30% 50% 60% / 60% 40% 50% 30%; }
+}
+
+@keyframes aurora {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes border-spin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
